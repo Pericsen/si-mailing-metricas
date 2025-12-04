@@ -71,10 +71,17 @@ with st.sidebar:
 # Carga Google Sheet
 # =====================================================
 load_dotenv()
-SHEET_ID = os.getenv("SHEET_ID")
-SERVICE_ACCOUNT_PATH = os.getenv("SERVICE_ACCOUNT_PATH")
+try:
+    SHEET_ID = st.secrets["SHEET_ID"]
+    service_account_info = dict(st.secrets["gcp_service_account"])
+    gc = gspread.service_account_from_dict(service_account_info)
+except:
+    # Fallback para desarrollo local con .env
+    load_dotenv()
+    SHEET_ID = os.getenv("SHEET_ID")
+    SERVICE_ACCOUNT_PATH = os.getenv("SERVICE_ACCOUNT_PATH")
+    gc = gspread.service_account(filename=SERVICE_ACCOUNT_PATH)
 
-gc = gspread.service_account(filename=SERVICE_ACCOUNT_PATH)
 sheet = gc.open_by_key(SHEET_ID).get_worksheet(2)
 data = sheet.get_all_records()
 df = pd.DataFrame(data)

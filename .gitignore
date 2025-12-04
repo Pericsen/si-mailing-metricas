@@ -3,3 +3,5 @@
 /credentials
 .env
 hashing.py
+__pycache__/
+*.json
