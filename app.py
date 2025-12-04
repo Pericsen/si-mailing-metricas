@@ -17,14 +17,7 @@ def hash_password(password):
 
 def check_authentication():
     """Verifica si el usuario está autenticado"""
-    # Usuarios autorizados (en producción, esto debería estar en secrets de Streamlit)
-    # Para agregar un nuevo usuario: genera el hash de su contraseña y agrégalo aquí
-    try:
-        AUTHORIZED_USERS = st.secrets["authorized_users"]
-    except:
-        AUTHORIZED_USERS={
-            "admin": hash_password("admin123")
-        }
+    AUTHORIZED_USERS = st.secrets["authorized_users"]
     
     # Verificar si ya está autenticado
     if "authenticated" not in st.session_state:
