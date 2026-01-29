@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    container_name: si-mailing-app
+    env_file:
+      - .env
+    ports:
+      - 127.0.0.1:8503:8501
+    volumes:
+      - ./.streamlit/secrets.toml:/app/.streamlit/secrets.toml:ro
+      - ./.streamlit/config.toml:/app/.streamlit/config.toml:ro
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
